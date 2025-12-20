@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KatMovie Hub - Free Movie Downloads</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #0a0a0a; color: #fff; font-family: 'Arial', sans-serif; }
+        .header { background: linear-gradient(#000, #1a1a1a); padding: 20px; text-align: center; border-bottom: 2px solid #ff0000; }
+        .nav-bar { background: #1a1a1a; padding: 10px; }
+        .nav-bar a { color: #fff; margin: 0 15px; text-decoration: none; }
+        .nav-bar a:hover { color: #ff0000; }
+        .search-bar { max-width: 400px; margin: 0 auto; }
+        .main-content { padding: 20px; }
+        .movie-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .movie-card { background: #1e1e1e; border-radius: 8px; overflow: hidden; transition: transform 0.2s; }
+        .movie-card:hover { transform: scale(1.02); }
+        .movie-poster { width: 100%; height: 350px; object-fit: cover; background: #333; }
+        .movie-info { padding: 15px; }
+        .rating { color: #ffd700; font-weight: bold; }
+        .trailer { margin: 20px 0; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; }
+        .trailer iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .footer { background: #000; padding: 10px; text-align: center; margin-top: 40px; color: #ccc; }
+        .loading { text-align: center; color: #ccc; padding: 50px; font-size: 1.5em; }
+        .modal-content { background: #1e1e1e; color: #fff; }
+        .modal-header, .modal-footer { border-color: #333; }
+        .modal-body { max-height: 70vh; overflow-y: auto; }
+        .load-more { text-align: center; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1><a href="#" style="color: #fff; text-decoration: none;">KatMovie Hub</a></h1>
+        <p>Latest HD Movies - Hindi Dubbed & Dual Audio Downloads (480p/720p/1080p)</p>
+        <div class="search-bar">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search movies..." onkeyup="searchMovies()">
+        </div>
+    </header>
+ 
+    <nav class="nav-bar">
+        <div><a href="#">Home</a> | <a href="#">All Movies</a></div>
+    </nav>
+    <div class="trailer">
+        <iframe
+            src="https://www.youtube.com/embed/lU46B_5Vel4?autoplay=1&mute=1&loop=1&playlist=lU46B_5Vel4&controls=0&rel=0&modestbranding=1&showinfo=0"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+        </iframe>
+    </div>
+ 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 main-content">
+                <h2>Latest Movies (Hindi Dubbed)</h2>
+                <div id="movieGrid" class="movie-grid loading">Loading latest movies from WordPress...</div>
+                <div id="loadMore" class="load-more">
+                    <button class="btn btn-danger" onclick="loadMorePosts()">Load More Posts</button>
+                </div>
+             
+                <div class="modal fade" id="movieModal" tabindex="-1" aria-labelledby="movieModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="movieModalLabel">Movie Details</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="modalContent">
+                                <!-- Content loaded here -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <footer class="footer">
+        <p>&copy; 2025 KatMovie Hub • Latest Indonesian Horror in Hindi Dubbed</p>
+    </footer>
+ 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script async src="https://www.instagram.com/embed.js"></script>
+    <script>
+        let currentPage = 1;
+        let allPosts = [];
+        const PER_PAGE = 100;
+        const BASE_URL = 'https://public-api.wordpress.com/rest/v1/sites/katmoviehddotpk.wordpress.com/posts';
+
+        async function fetchPage(page) {
+            try {
+                const url = `${BASE_URL}?number=${PER_PAGE}&page=${page}`;
+                const response = await fetch(url);
+                const data = await response.json();
+                return data.posts || [];
+            } catch (error) {
+                console.error('API fetch failed:', error);
+                return [];
+            }
+        }
+
+        async function loadMovies() {
+            const posts = await fetchPage(currentPage);
+            allPosts = allPosts.concat(posts);
+            renderGrid(posts);
+            currentPage++;
+
+            document.getElementById('loadMore').style.display = posts.length === PER_PAGE ? 'block' : 'none';
+        }
+
+        function renderGrid(posts) {
+            const grid = document.getElementById('movieGrid');
+            if (currentPage === 1) {
+                grid.innerHTML = '';
+            }
+
+            posts.forEach(post => {
+                const year = new Date(post.date).getFullYear();
+                const genres = post.categories ? Object.values(post.categories).map(cat => cat.name || cat.title || cat).join(', ') : 'Uncategorized';
+                const synopsis = post.content ? post.content.replace(/<[^>]*>/g, '').substring(0, 100) + '...' : 'No description.';
+                
+                let posterUrl = 'https://via.placeholder.com/250x350/ff0000/ffffff?text=No+Image';
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(post.content, 'text/html');
+                const img = doc.querySelector('img');
+                if (img) {
+                    posterUrl = img.src;
+                }
+
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.setAttribute('data-title', post.title.toLowerCase());
+                card.innerHTML = `
+                    <img src="${posterUrl}" alt="${post.title} Poster" class="movie-poster" onerror="this.src='https://via.placeholder.com/250x350/ff0000/ffffff?text=No+Image'">
+                    <div class="movie-info">
+                        <h5>${post.title} (${year})</h5>
+                        <p class="rating">7.0</p>
+                        <p>${genres} | 720p Dual Audio</p>
+                        <p>${synopsis}</p>
+                        <button class="btn btn-danger btn-sm show-detail" onclick="showDetail(${post.ID})">Watch/Download</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        async function showDetail(postId) {
+            try {
+                const response = await fetch(`${BASE_URL}/${postId}`);
+                const post = await response.json();
+                const fullContent = post.content ? post.content : '<p>No content available.</p>';
+                const year = new Date(post.date).getFullYear();
+
+                // Super robust YouTube detection
+                let youtubeUrl = '';
+                const youtubePatterns = [
+                    /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/i,
+                    /youtu\.be\/([a-zA-Z0-9_-]{11})/i,
+                    /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/i,
+                    /youtube\.com\/v\/([a-zA-Z0-9_-]{11})/i
+                ];
+                for (const pattern of youtubePatterns) {
+                    const match = fullContent.match(pattern);
+                    if (match) {
+                        youtubeUrl = `https://www.youtube.com/watch?v=${match[1]}`;
+                        break;
+                    }
+                }
+
+                // Embed with autoplay (muted for better compatibility)
+                let videoSection = '';
+                if (youtubeUrl) {
+                    const videoId = youtubeUrl.split('v=')[1].split('&')[0];
+                    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1`;
+                    videoSection = `<div class="trailer"><iframe src="${embedUrl}" allowfullscreen allow="autoplay; fullscreen"></iframe></div>`;
+                }
+
+                // All links open in new tab
+                const modifiedContent = fullContent.replace(/<a /g, '<a target="_blank" rel="noopener" ');
+
+                document.getElementById('movieModalLabel').textContent = post.title;
+                document.getElementById('modalContent').innerHTML = `
+                    ${videoSection}
+                    <div>${modifiedContent}</div>
+                `;
+
+                if (window.instgrm) instgrm.Embeds.process();
+
+                const modal = new bootstrap.Modal(document.getElementById('movieModal'));
+                modal.show();
+            } catch (error) {
+                alert('Failed to load details.');
+            }
+        }
+
+        function searchMovies() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.querySelectorAll('.movie-card');
+            cards.forEach(card => {
+                let title = card.querySelector('h5').textContent.toLowerCase();
+                card.style.display = title.includes(input) ? 'block' : 'none';
+            });
+        }
+
+        function loadMorePosts() {
+            loadMovies();
+        }
+
+        document.addEventListener('DOMContentLoaded', loadMovies);
+    </script>
+</body>
+</html>
