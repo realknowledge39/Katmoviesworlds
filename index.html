@@ -75,7 +75,7 @@
             font-size: 1.7rem; 
         }
 
-        /* 4 columns grid on all screens (including mobile) */
+        /* 4-column grid on all devices */
         .movie-grid { 
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -126,15 +126,18 @@
             margin-top: 8px;
             border-radius: 6px;
         }
-        .load-more { 
-            text-align: center; 
-            margin: 40px 0; 
+
+        /* Loading indicator for infinite scroll */
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #ff0000;
         }
-        .load-more button { 
-            padding: 12px 35px; 
-            font-size: 1.1rem; 
-            border-radius: 30px;
+        .loading-spinner.hidden {
+            display: none;
         }
+
         .footer { 
             background: #000; 
             padding: 25px 15px; 
@@ -152,48 +155,23 @@
             display: block; 
             margin-bottom: 10px; 
         }
-        .loading { 
-            text-align: center; 
-            color: #ccc; 
-            padding: 80px; 
-            font-size: 1.4rem; 
-        }
 
-        /* Mobile adjustments - keep 4 columns but make cards smaller and readable */
+        /* Mobile optimizations */
         @media (max-width: 768px) {
             .movie-grid {
-                grid-template-columns: repeat(4, 1fr);
                 gap: 10px;
                 padding: 0 5px;
             }
-            .movie-poster { 
-                height: 180px; 
-            }
-            .movie-info { 
-                padding: 8px; 
-            }
-            .movie-info h5 { 
-                font-size: 0.85rem; 
-            }
-            .movie-info p { 
-                font-size: 0.75rem; 
-            }
-            .show-detail { 
-                padding: 6px; 
-                font-size: 0.8rem; 
-            }
+            .movie-poster { height: 180px; }
+            .movie-info { padding: 8px; }
+            .movie-info h5 { font-size: 0.85rem; }
+            .movie-info p { font-size: 0.75rem; }
+            .show-detail { padding: 6px; font-size: 0.8rem; }
         }
-
         @media (max-width: 480px) {
-            .movie-poster { 
-                height: 160px; 
-            }
-            .movie-info h5 { 
-                font-size: 0.8rem; 
-            }
-            .movie-info p { 
-                font-size: 0.72rem; 
-            }
+            .movie-poster { height: 160px; }
+            .movie-info h5 { font-size: 0.8rem; }
+            .movie-info p { font-size: 0.72rem; }
         }
     </style>
 </head>
@@ -222,10 +200,8 @@
         <div class="row">
             <div class="col-12 main-content">
                 <h2>Latest Movies (Hindi Dubbed)</h2>
-                <div id="movieGrid" class="movie-grid loading">Loading latest movies...</div>
-                <div id="loadMore" class="load-more">
-                    <button class="btn btn-danger" onclick="loadMorePosts()">Load More</button>
-                </div>
+                <div id="movieGrid" class="movie-grid"></div>
+                <div id="loadingSpinner" class="loading-spinner hidden">Loading more movies...</div>
              
                 <div class="modal fade" id="movieModal" tabindex="-1">
                     <div class="modal-dialog modal-xl modal-dialog-centered">
@@ -260,7 +236,8 @@
     <script async src="https://www.instagram.com/embed.js"></script>
     <script>
         let currentPage = 1;
-        let allPosts = [];
+        let isLoading = false;
+        let hasMore = true;
         const PER_PAGE = 100;
         const BASE_URL = 'https://public-api.wordpress.com/rest/v1/sites/katmoviehddotpk.wordpress.com/posts';
 
@@ -268,6 +245,7 @@
             try {
                 const url = `${BASE_URL}?number=${PER_PAGE}&page=${page}`;
                 const response = await fetch(url);
+                if (!response.ok) throw new Error('Network error');
                 const data = await response.json();
                 return data.posts || [];
             } catch (error) {
@@ -276,20 +254,8 @@
             }
         }
 
-        async function loadMovies() {
-            const posts = await fetchPage(currentPage);
-            allPosts = allPosts.concat(posts);
-            renderGrid(posts);
-            currentPage++;
-
-            document.getElementById('loadMore').style.display = posts.length === PER_PAGE ? 'block' : 'none';
-        }
-
         function renderGrid(posts) {
             const grid = document.getElementById('movieGrid');
-            if (currentPage === 1) {
-                grid.innerHTML = '';
-            }
 
             posts.forEach(post => {
                 const year = new Date(post.date).getFullYear();
@@ -319,6 +285,24 @@
                 `;
                 grid.appendChild(card);
             });
+        }
+
+        async function loadMoreMovies() {
+            if (isLoading || !hasMore) return;
+            isLoading = true;
+            document.getElementById('loadingSpinner').classList.remove('hidden');
+
+            const posts = await fetchPage(currentPage);
+            if (posts.length === 0) {
+                hasMore = false;
+            } else {
+                renderGrid(posts);
+                currentPage++;
+                if (posts.length < PER_PAGE) hasMore = false;
+            }
+
+            isLoading = false;
+            document.getElementById('loadingSpinner').classList.add('hidden');
         }
 
         async function showDetail(postId) {
@@ -361,13 +345,22 @@
             });
         }
 
-        function loadMorePosts() {
-            loadMovies();
+        // Infinite Scroll Logic
+        function handleScroll() {
+            if (isLoading || !hasMore) return;
+
+            const spinner = document.getElementById('loadingSpinner');
+            const rect = spinner.getBoundingClientRect();
+            if (rect.top < window.innerHeight + 200) { // Trigger 200px before reaching bottom
+                loadMoreMovies();
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            loadMovies();
+            loadMoreMovies(); // Load first page
             document.getElementById('searchInput').addEventListener('input', searchMovies);
+            window.addEventListener('scroll', handleScroll);
+            window.addEventListener('touchmove', handleScroll); // For mobile
         });
     </script>
 </body>
