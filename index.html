@@ -4,6 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KatMovie Hub - Free Movie Downloads</title>
+    
+    <!-- Essential SEO Meta Tags -->
+    <meta name="description" content="KatMovie Hub provides latest Hindi dubbed Hollywood movies with dual audio options. Watch trailers and official content in 480p, 720p, 1080p quality.">
+    <meta name="keywords" content="katmovie hub, hindi dubbed movies, dual audio movies, hollywood hindi dubbed, latest movies 2025, movie trailers hindi">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="KatMovie Hub">
+    <meta name="language" content="en">
+    
+    <!-- Open Graph / Social Media Tags (helps sharing on WhatsApp, Facebook, etc.) -->
+    <meta property="og:title" content="KatMovie Hub - Latest Hindi Dubbed Movies">
+    <meta property="og:description" content="Watch latest Hollywood movies in Hindi dubbed and dual audio. Official trailers and updates.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://realknowledge39.github.io/Katmoviesworlds/">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/ff0000/ffffff?text=KatMovie+Hub">
+    <meta property="og:site_name" content="KatMovie Hub">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="KatMovie Hub - Latest Hindi Dubbed Movies">
+    <meta name="twitter:description" content="Latest Hollywood movies in Hindi dubbed and dual audio. Official content and trailers.">
+    <meta name="twitter:image" content="https://via.placeholder.com/1200x630/ff0000/ffffff?text=KatMovie+Hub">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://realknowledge39.github.io/Katmoviesworlds/">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { 
@@ -75,7 +100,6 @@
             font-size: 1.7rem; 
         }
 
-        /* 4-column grid on all devices */
         .movie-grid { 
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -127,7 +151,6 @@
             border-radius: 6px;
         }
 
-        /* Loading indicator for infinite scroll */
         .loading-spinner {
             text-align: center;
             padding: 40px;
@@ -156,7 +179,6 @@
             margin-bottom: 10px; 
         }
 
-        /* Mobile optimizations */
         @media (max-width: 768px) {
             .movie-grid {
                 gap: 10px;
@@ -178,7 +200,7 @@
 <body>
     <header class="header">
         <h1><a href="#" style="color: #fff; text-decoration: none;">KatMovie Hub</a></h1>
-        <p>Latest HD Movies - Hindi Dubbed & Dual Audio Downloads</p>
+        <p>Latest HD Movies - Hindi Dubbed & Dual Audio Downloads (480p/720p/1080p)</p>
         <div class="search-bar">
             <input type="text" id="searchInput" class="form-control" placeholder="Search movies...">
         </div>
@@ -274,7 +296,7 @@
                 card.className = 'movie-card';
                 card.setAttribute('data-title', post.title.toLowerCase());
                 card.innerHTML = `
-                    <img src="${posterUrl}" alt="${post.title}" class="movie-poster" onerror="this.src='https://via.placeholder.com/300x450/ff0000/ffffff?text=No+Image'">
+                    <img src="${posterUrl}" alt="${post.title} Hindi Dubbed Poster" class="movie-poster" onerror="this.src='https://via.placeholder.com/300x450/ff0000/ffffff?text=No+Image'">
                     <div class="movie-info">
                         <h5>${post.title} (${year})</h5>
                         <p class="rating">★ 7.0</p>
@@ -345,22 +367,21 @@
             });
         }
 
-        // Infinite Scroll Logic
         function handleScroll() {
             if (isLoading || !hasMore) return;
 
             const spinner = document.getElementById('loadingSpinner');
             const rect = spinner.getBoundingClientRect();
-            if (rect.top < window.innerHeight + 200) { // Trigger 200px before reaching bottom
+            if (rect.top < window.innerHeight + 200) {
                 loadMoreMovies();
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            loadMoreMovies(); // Load first page
+            loadMoreMovies();
             document.getElementById('searchInput').addEventListener('input', searchMovies);
             window.addEventListener('scroll', handleScroll);
-            window.addEventListener('touchmove', handleScroll); // For mobile
+            window.addEventListener('touchmove', handleScroll);
         });
     </script>
 </body>
