@@ -6,44 +6,213 @@
     <title>KatMovie Hub - Free Movie Downloads</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background: #0a0a0a; color: #fff; font-family: 'Arial', sans-serif; }
-        .header { background: linear-gradient(#000, #1a1a1a); padding: 20px; text-align: center; border-bottom: 2px solid #ff0000; }
-        .nav-bar { background: #1a1a1a; padding: 10px; }
-        .nav-bar a { color: #fff; margin: 0 15px; text-decoration: none; }
-        .nav-bar a:hover { color: #ff0000; }
-        .search-bar { max-width: 400px; margin: 0 auto; }
-        .main-content { padding: 20px; }
-        .movie-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .movie-card { background: #1e1e1e; border-radius: 8px; overflow: hidden; transition: transform 0.2s; }
-        .movie-card:hover { transform: scale(1.02); }
-        .movie-poster { width: 100%; height: 350px; object-fit: cover; background: #333; }
-        .movie-info { padding: 15px; }
-        .rating { color: #ffd700; font-weight: bold; }
-        .trailer { margin: 20px 0; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; }
-        .trailer iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        .footer { background: #000; padding: 10px; text-align: center; margin-top: 40px; color: #ccc; }
-        .loading { text-align: center; color: #ccc; padding: 50px; font-size: 1.5em; }
-        .modal-content { background: #1e1e1e; color: #fff; }
-        .modal-header, .modal-footer { border-color: #333; }
-        .modal-body { max-height: 70vh; overflow-y: auto; }
-        .load-more { text-align: center; margin: 20px 0; }
+        body { 
+            background: #0a0a0a; 
+            color: #fff; 
+            font-family: 'Arial', sans-serif; 
+            margin: 0;
+            padding: 0;
+        }
+        .header { 
+            background: linear-gradient(#000, #1a1a1a); 
+            padding: 15px; 
+            text-align: center; 
+            border-bottom: 3px solid #ff0000; 
+        }
+        .header h1 { 
+            font-size: 1.8rem; 
+            margin: 0; 
+        }
+        .header p { 
+            font-size: 0.95rem; 
+            margin: 8px 0; 
+        }
+        .search-bar { 
+            max-width: 90%; 
+            margin: 15px auto; 
+        }
+        .search-bar input { 
+            border-radius: 30px; 
+            padding: 12px 20px; 
+            font-size: 1rem; 
+        }
+        .nav-bar { 
+            background: #1a1a1a; 
+            padding: 12px; 
+            text-align: center; 
+        }
+        .nav-bar a { 
+            color: #fff; 
+            margin: 0 12px; 
+            text-decoration: none; 
+            font-size: 1.1rem; 
+        }
+        .nav-bar a:hover { 
+            color: #ff0000; 
+        }
+        .trailer { 
+            margin: 20px 10px; 
+            position: relative; 
+            padding-bottom: 56.25%; 
+            height: 0; 
+            overflow: hidden; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(255,0,0,0.3);
+        }
+        .trailer iframe { 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; 
+            height: 100%; 
+            border: 0; 
+        }
+        .main-content { 
+            padding: 15px; 
+        }
+        .main-content h2 { 
+            text-align: center; 
+            margin-bottom: 25px; 
+            font-size: 1.7rem; 
+        }
+
+        /* 4 columns grid on all screens (including mobile) */
+        .movie-grid { 
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 0 10px;
+        }
+
+        .movie-card { 
+            background: #1e1e1e; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+        }
+        .movie-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 12px 25px rgba(255,0,0,0.5);
+        }
+        .movie-poster { 
+            width: 100%; 
+            height: 220px; 
+            object-fit: cover; 
+        }
+        .movie-info { 
+            padding: 12px; 
+        }
+        .movie-info h5 { 
+            font-size: 0.92rem; 
+            margin: 0 0 6px 0; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
+        }
+        .movie-info p { 
+            font-size: 0.8rem; 
+            margin: 4px 0; 
+            line-height: 1.3;
+        }
+        .rating { 
+            color: #ffd700; 
+            font-weight: bold; 
+            font-size: 0.9rem; 
+        }
+        .show-detail { 
+            width: 100%; 
+            padding: 8px; 
+            font-size: 0.85rem; 
+            margin-top: 8px;
+            border-radius: 6px;
+        }
+        .load-more { 
+            text-align: center; 
+            margin: 40px 0; 
+        }
+        .load-more button { 
+            padding: 12px 35px; 
+            font-size: 1.1rem; 
+            border-radius: 30px;
+        }
+        .footer { 
+            background: #000; 
+            padding: 25px 15px; 
+            text-align: center; 
+            margin-top: 50px; 
+            color: #ccc; 
+            font-size: 0.95rem;
+        }
+        .visitor-counter { 
+            margin-top: 20px; 
+            font-size: 1.2rem; 
+            color: #ffd700; 
+        }
+        .visitor-counter strong { 
+            display: block; 
+            margin-bottom: 10px; 
+        }
+        .loading { 
+            text-align: center; 
+            color: #ccc; 
+            padding: 80px; 
+            font-size: 1.4rem; 
+        }
+
+        /* Mobile adjustments - keep 4 columns but make cards smaller and readable */
+        @media (max-width: 768px) {
+            .movie-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+                padding: 0 5px;
+            }
+            .movie-poster { 
+                height: 180px; 
+            }
+            .movie-info { 
+                padding: 8px; 
+            }
+            .movie-info h5 { 
+                font-size: 0.85rem; 
+            }
+            .movie-info p { 
+                font-size: 0.75rem; 
+            }
+            .show-detail { 
+                padding: 6px; 
+                font-size: 0.8rem; 
+            }
+        }
+
+        @media (max-width: 480px) {
+            .movie-poster { 
+                height: 160px; 
+            }
+            .movie-info h5 { 
+                font-size: 0.8rem; 
+            }
+            .movie-info p { 
+                font-size: 0.72rem; 
+            }
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <h1><a href="#" style="color: #fff; text-decoration: none;">KatMovie Hub</a></h1>
-        <p>Latest HD Movies - Hindi Dubbed & Dual Audio Downloads (480p/720p/1080p)</p>
+        <p>Latest HD Movies - Hindi Dubbed & Dual Audio Downloads</p>
         <div class="search-bar">
-            <input type="text" id="searchInput" class="form-control" placeholder="Search movies..." onkeyup="searchMovies()">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search movies...">
         </div>
     </header>
  
     <nav class="nav-bar">
-        <div><a href="#">Home</a> | <a href="#">All Movies</a></div>
+        <a href="#">Home</a> | <a href="#">All Movies</a>
     </nav>
+
     <div class="trailer">
         <iframe
-            src="https://www.youtube.com/embed/lU46B_5Vel4?autoplay=1&mute=1&loop=1&playlist=lU46B_5Vel4&controls=0&rel=0&modestbranding=1&showinfo=0"
+            src="https://www.youtube.com/embed/lU46B_5Vel4?autoplay=1&mute=1&loop=1&playlist=lU46B_5Vel4&controls=0&rel=0&modestbranding=1"
             allow="autoplay; encrypted-media"
             allowfullscreen>
         </iframe>
@@ -53,22 +222,20 @@
         <div class="row">
             <div class="col-12 main-content">
                 <h2>Latest Movies (Hindi Dubbed)</h2>
-                <div id="movieGrid" class="movie-grid loading">Loading latest movies from WordPress...</div>
+                <div id="movieGrid" class="movie-grid loading">Loading latest movies...</div>
                 <div id="loadMore" class="load-more">
-                    <button class="btn btn-danger" onclick="loadMorePosts()">Load More Posts</button>
+                    <button class="btn btn-danger" onclick="loadMorePosts()">Load More</button>
                 </div>
              
-                <div class="modal fade" id="movieModal" tabindex="-1" aria-labelledby="movieModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
+                <div class="modal fade" id="movieModal" tabindex="-1">
+                    <div class="modal-dialog modal-xl modal-dialog-centered">
+                        <div class="modal-content bg-dark text-white">
+                            <div class="modal-header border-secondary">
                                 <h5 class="modal-title" id="movieModalLabel">Movie Details</h5>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                             </div>
-                            <div class="modal-body" id="modalContent">
-                                <!-- Content loaded here -->
-                            </div>
-                            <div class="modal-footer">
+                            <div class="modal-body" id="modalContent"></div>
+                            <div class="modal-footer border-secondary">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
                         </div>
@@ -79,7 +246,14 @@
     </div>
  
     <footer class="footer">
-        <p>&copy; 2025 KatMovie Hub • Latest Indonesian Horror in Hindi Dubbed</p>
+        <p>&copy; 2025 KatMovie Hub • Latest Hindi Dubbed Movies</p>
+        
+        <div class="visitor-counter">
+            <strong>Total Visitors:</strong>
+            <div id="sfcqlbucnf32sxf5nquu5j6z63t953ytyzk"></div>
+            <script type="text/javascript" src="https://counter1.optistats.ovh/private/counter.js?c=qlbucnf32sxf5nquu5j6z63t953ytyzk&down=async" async></script>
+            <noscript><a href="https://www.freecounterstat.com" title="web counter"><img src="https://counter1.optistats.ovh/private/freecounterstat.php?c=qlbucnf32sxf5nquu5j6z63t953ytyzk" border="0" alt="web counter"></a></noscript>
+        </div>
     </footer>
  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -122,11 +296,11 @@
                 const genres = post.categories ? Object.values(post.categories).map(cat => cat.name || cat.title || cat).join(', ') : 'Uncategorized';
                 const synopsis = post.content ? post.content.replace(/<[^>]*>/g, '').substring(0, 100) + '...' : 'No description.';
                 
-                let posterUrl = 'https://via.placeholder.com/250x350/ff0000/ffffff?text=No+Image';
+                let posterUrl = 'https://via.placeholder.com/300x450/ff0000/ffffff?text=No+Image';
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(post.content, 'text/html');
                 const img = doc.querySelector('img');
-                if (img) {
+                if (img && img.src) {
                     posterUrl = img.src;
                 }
 
@@ -134,13 +308,13 @@
                 card.className = 'movie-card';
                 card.setAttribute('data-title', post.title.toLowerCase());
                 card.innerHTML = `
-                    <img src="${posterUrl}" alt="${post.title} Poster" class="movie-poster" onerror="this.src='https://via.placeholder.com/250x350/ff0000/ffffff?text=No+Image'">
+                    <img src="${posterUrl}" alt="${post.title}" class="movie-poster" onerror="this.src='https://via.placeholder.com/300x450/ff0000/ffffff?text=No+Image'">
                     <div class="movie-info">
                         <h5>${post.title} (${year})</h5>
-                        <p class="rating">7.0</p>
-                        <p>${genres} | 720p Dual Audio</p>
+                        <p class="rating">★ 7.0</p>
+                        <p><strong>${genres}</strong></p>
                         <p>${synopsis}</p>
-                        <button class="btn btn-danger btn-sm show-detail" onclick="showDetail(${post.ID})">Watch/Download</button>
+                        <button class="btn btn-danger show-detail" onclick="showDetail(${post.ID})">Watch / Download</button>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -151,56 +325,38 @@
             try {
                 const response = await fetch(`${BASE_URL}/${postId}`);
                 const post = await response.json();
-                const fullContent = post.content ? post.content : '<p>No content available.</p>';
-                const year = new Date(post.date).getFullYear();
+                const fullContent = post.content || '<p>No content available.</p>';
 
-                // Super robust YouTube detection
                 let youtubeUrl = '';
-                const youtubePatterns = [
-                    /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/i,
-                    /youtu\.be\/([a-zA-Z0-9_-]{11})/i,
-                    /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/i,
-                    /youtube\.com\/v\/([a-zA-Z0-9_-]{11})/i
-                ];
-                for (const pattern of youtubePatterns) {
+                const patterns = [/youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/i, /youtu\.be\/([a-zA-Z0-9_-]{11})/i, /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/i];
+                for (const pattern of patterns) {
                     const match = fullContent.match(pattern);
                     if (match) {
-                        youtubeUrl = `https://www.youtube.com/watch?v=${match[1]}`;
+                        youtubeUrl = `https://www.youtube.com/embed/${match[1]}?autoplay=1&mute=1&rel=0`;
                         break;
                     }
                 }
 
-                // Embed with autoplay (muted for better compatibility)
-                let videoSection = '';
-                if (youtubeUrl) {
-                    const videoId = youtubeUrl.split('v=')[1].split('&')[0];
-                    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1`;
-                    videoSection = `<div class="trailer"><iframe src="${embedUrl}" allowfullscreen allow="autoplay; fullscreen"></iframe></div>`;
-                }
+                let videoSection = youtubeUrl ? `<div class="trailer my-3"><iframe src="${youtubeUrl}" allowfullscreen allow="autoplay"></iframe></div>` : '';
 
-                // All links open in new tab
                 const modifiedContent = fullContent.replace(/<a /g, '<a target="_blank" rel="noopener" ');
 
                 document.getElementById('movieModalLabel').textContent = post.title;
-                document.getElementById('modalContent').innerHTML = `
-                    ${videoSection}
-                    <div>${modifiedContent}</div>
-                `;
+                document.getElementById('modalContent').innerHTML = videoSection + modifiedContent;
 
                 if (window.instgrm) instgrm.Embeds.process();
 
-                const modal = new bootstrap.Modal(document.getElementById('movieModal'));
-                modal.show();
+                new bootstrap.Modal(document.getElementById('movieModal')).show();
             } catch (error) {
-                alert('Failed to load details.');
+                alert('Failed to load movie details.');
             }
         }
 
         function searchMovies() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.querySelectorAll('.movie-card');
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.movie-card');
             cards.forEach(card => {
-                let title = card.querySelector('h5').textContent.toLowerCase();
+                const title = card.querySelector('h5').textContent.toLowerCase();
                 card.style.display = title.includes(input) ? 'block' : 'none';
             });
         }
@@ -209,7 +365,10 @@
             loadMovies();
         }
 
-        document.addEventListener('DOMContentLoaded', loadMovies);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMovies();
+            document.getElementById('searchInput').addEventListener('input', searchMovies);
+        });
     </script>
 </body>
 </html>
