@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>{{ site.title | default: "Your Site Title" }}</title>
-    <description>{{ site.description | default: "Updates from my GitHub Pages site" }}</description>
-    <link>{{ site.url }}</link>
-    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
-    {% for post in site.posts limit:20 %}
+    <title>Your Site Title</title>
+    <description>Updates from my site</description>
+    <link>https://realknowledge39.github.io/</link>
+    <lastBuildDate>Thu, 25 Dec 2025 00:00:00 +0000</lastBuildDate>
+
     <item>
-      <title>{{ post.title | xml_escape }}</title>
-      <description>{{ post.excerpt | strip_html | xml_escape }}</description>
-      <link>{{ site.url }}{{ post.url }}</link>
-      <guid>{{ site.url }}{{ post.url }}</guid>
-      <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+      <title>Home Page</title>
+      <description>&lt;img src="https://realknowledge39.github.io/path/to/your-image.jpg" /&gt; Welcome to my site!</description>
+      <link>https://realknowledge39.github.io/</link>
+      <guid>https://realknowledge39.github.io/</guid>
+      <pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate>
     </item>
-    {% endfor %}
+
+    <!-- Add more <item> for other pages -->
   </channel>
 </rss>
