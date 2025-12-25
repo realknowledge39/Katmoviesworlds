@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Katmoviesworlds - Movies</title>
+    <description>Latest movie updates and downloads</description>
+    <link>https://realknowledge39.github.io/Katmoviesworlds/</link>
+    <lastBuildDate>Thu, 25 Dec 2025 00:00:00 +0000</lastBuildDate>
+
+    <item>
+      <title>Example Movie Title</title>
+      <description>Your movie description here. Add an image like this: &lt;img src="https://realknowledge39.github.io/Katmoviesworlds/images/poster.jpg" alt="Poster" /&gt;</description>
+      <link>https://realknowledge39.github.io/Katmoviesworlds/</link>
+      <guid isPermaLink="true">https://realknowledge39.github.io/Katmoviesworlds/</guid>
+      <pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate>
+      
+      <!-- Best for images: Add this for Pinterest to use as Pin image -->
+      <enclosure url="https://realknowledge39.github.io/Katmoviesworlds/images/poster.jpg" length="50000" type="image/jpeg" />
+    </item>
+
+    <!-- Add more <item> blocks here for each movie/page -->
+
+  </channel>
+</rss>
