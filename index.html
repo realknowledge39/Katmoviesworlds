@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KatMovie Hub - Free Movie Downloads</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="KatMovie Hub provides latest Hindi dubbed Hollywood movies with dual audio options. Watch trailers and official content in 480p, 720p, 1080p quality.">
+    <meta name="keywords" content="katmovie hub, hindi dubbed movies, dual audio movies, hollywood hindi dubbed, latest movies 2025, movie trailers hindi">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="KatMovie Hub">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #0a0a0a; color: #fff; font-family: 'Arial', sans-serif; margin: 0; padding: 0; }
+        .header { background: linear-gradient(#000, #1a1a1a); padding: 15px; text-align: center; border-bottom: 3px solid #ff0000; }
+        .header h1 { font-size: 1.8rem; margin: 0; }
+        .header p { font-size: 0.95rem; margin: 8px 0; }
+        .search-bar { max-width: 90%; margin: 15px auto; }
+        .search-bar input { border-radius: 30px; padding: 12px 20px; font-size: 1rem; }
+        .nav-bar { background: #1a1a1a; padding: 12px; text-align: center; }
+        .nav-bar a { color: #fff; margin: 0 12px; text-decoration: none; font-size: 1.1rem; }
+        .nav-bar a:hover { color: #ff0000; }
+        .trailer { margin: 20px 10px; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: 0 4px 15px rgba(255,0,0,0.3); }
+        .trailer iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .main-content { padding: 15px; }
+        .main-content h2 { text-align: center; margin-bottom: 25px; font-size: 1.7rem; }
+
+        .movie-grid { 
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            padding: 0 10px;
+        }
+
+        .movie-card { 
+            background: #1e1e1e; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+        }
+        .movie-card:hover { transform: translateY(-8px); box-shadow: 0 12px 25px rgba(255,0,0,0.5); }
+        .movie-poster { width: 100%; height: 260px; object-fit: cover; }
+        .movie-info { padding: 12px; }
+        .movie-info h5 { font-size: 1rem; margin: 0 0 8px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .movie-info p { font-size: 0.85rem; margin: 5px 0; line-height: 1.4; }
+        .rating { color: #ffd700; font-weight: bold; font-size: 1rem; }
+        .show-detail, .share-btn { 
+            width: 100%; 
+            padding: 10px; 
+            font-size: 0.9rem; 
+            margin-top: 10px;
+            border-radius: 8px;
+        }
+
+        .share-modal .modal-content { background: #1e1e1e; color: #fff; }
+        .share-modal .modal-header, .share-modal .modal-footer { border-color: #333; }
+        .share-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px 0; }
+        .share-options a, .share-options button { 
+            color: white; 
+            text-decoration: none; 
+            font-size: 1.3rem; 
+            padding: 12px 24px; 
+            border-radius: 10px; 
+            transition: all 0.3s;
+            min-width: 140px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+        .share-options a:hover, .share-options button:hover { opacity: 0.9; transform: scale(1.05); }
+        .telegram { background: #0088cc; }
+        .whatsapp { background: #25D366; }
+        .instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .copy-btn { background: #6c757d; }
+
+        .loading-spinner { text-align: center; padding: 40px; font-size: 1.2rem; color: #ff0000; }
+        .loading-spinner.hidden { display: none; }
+
+        .footer { background: #000; padding: 25px 15px; text-align: center; margin-top: 50px; color: #ccc; font-size: 0.95rem; }
+        .visitor-counter { margin-top: 20px; font-size: 1.2rem; color: #ffd700; }
+        .visitor-counter strong { display: block; margin-bottom: 10px; }
+
+        @media (max-width: 576px) {
+            .movie-poster { height: 220px; }
+            .movie-info h5 { font-size: 0.95rem; }
+            .share-options { flex-direction: column; }
+            .share-options a, .share-options button { margin: 8px 0; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1><a href="#" style="color: #fff; text-decoration: none;">KatMovie Hub</a></h1>
+        <p>Latest HD Movies - Hindi Dubbed & Dual Audio Downloads (480p/720p/1080p)</p>
+        <div class="search-bar">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search movies...">
+        </div>
+    </header>
+ 
+    <nav class="nav-bar">
+        <a href="#">Home</a> | <a href="#">All Movies</a>
+    </nav>
+
+    <div class="trailer">
+        <iframe src="https://www.youtube.com/embed/lU46B_5Vel4?autoplay=1&mute=1&loop=1&playlist=lU46B_5Vel4&controls=0&rel=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+ 
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 main-content">
+                <h2>Latest Movies (Hindi Dubbed)</h2>
+                <div id="movieGrid" class="movie-grid"></div>
+                <div id="loadingSpinner" class="loading-spinner hidden">Loading more movies...</div>
+             
+                <!-- Movie Detail Modal -->
+                <div class="modal fade" id="movieModal" tabindex="-1">
+                    <div class="modal-dialog modal-xl modal-dialog-centered">
+                        <div class="modal-content bg-dark text-white">
+                            <div class="modal-header border-secondary">
+                                <h5 class="modal-title" id="movieModalLabel">Movie Details</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body" id="modalContent"></div>
+                            <div class="modal-footer border-secondary">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Share Modal -->
+                <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content bg-dark text-white">
+                            <div class="modal-header border-secondary">
+                                <h5 class="modal-title" id="shareModalLabel">Share this Movie</h5>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <p id="sharePreview" class="mb-4"></p>
+                                <div class="share-options">
+                                    <a href="#" id="shareTelegram" class="telegram">Telegram</a>
+                                    <a href="#" id="shareWhatsapp" class="whatsapp">WhatsApp</a>
+                                    <a href="#" id="shareInstagram" class="instagram">Instagram</a>
+                                    <button id="shareCopy" class="copy-btn">Copy</button>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-secondary">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <footer class="footer">
+        <p>© 2025 KatMovie Hub • Latest Hindi Dubbed Movies</p>
+        
+        <div class="visitor-counter">
+            <strong>Total Visitors:</strong>
+            <div id="sfcqlbucnf32sxf5nquu5j6z63t953ytyzk"></div>
+            <script type="text/javascript" src="https://counter1.optistats.ovh/private/counter.js?c=qlbucnf32sxf5nquu5j6z63t953ytyzk&down=async" async></script>
+            <noscript><a href="https://www.freecounterstat.com" title="web counter"><img src="https://counter1.optistats.ovh/private/freecounterstat.php?c=qlbucnf32sxf5nquu5j6z63t953ytyzk" border="0" alt="web counter"></a></noscript>
+        </div>
+    </footer>
+ 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script async src="https://www.instagram.com/embed.js"></script>
+    <script>
+        let currentPage = 1;
+        let isLoading = false;
+        let hasMore = true;
+        const PER_PAGE = 100;
+        const BASE_URL = 'https://public-api.wordpress.com/rest/v1/sites/katmoviehddotpk.wordpress.com/posts';
+
+        let currentShareData = null;
+        let sources = [];
+
+        // Your source groups (480p, 720p, 1080p)
+        sources = [
+            ["https://tpi.li/iiBgPzFmdfT","https://lnbz.la/0AC6","https://oii.la/KgVIs"],
+            ["https://tpi.li/yH5a3K","https://lnbz.la/0dQJf","https://oii.la/zx6IcQX8Dm"],
+            ["https://tpi.li/L9f","https://lnbz.la/0IPJ","https://oii.la/4H85xKs"],
+            ["https://tpi.li/KX795nK5cA8","https://lnbz.la/0ssnE","https://oii.la/1g88SK6"],
+            ["https://tpi.li/Hwwwm2l","https://lnbz.la/0ug","https://oii.la/QdvG"],
+            ["https://tpi.li/rmUISANqA","https://lnbz.la/1F6lg","https://oii.la/AsB6MNC"],
+            ["https://tpi.li/esxGYEN","https://lnbz.la/1S6lQX","https://oii.la/HG1HNp"],
+            ["https://tpi.li/D1tq5AZUJ","https://lnbz.la/1yXvSV","https://oii.la/OKyv7V"],
+            ["https://tpi.li/Vr9QAhNks8","https://lnbz.la/1zUjJnN","https://oii.la/nYZE"],
+            ["https://tpi.li/kwAk0FBRU31","https://lnbz.la/21mKYE","https://oii.la/5PA6JL"],
+            ["https://tpi.li/y2k6le1Ap","https://lnbz.la/24t2GK","https://oii.la/EJXnlVF9wH"],
+            ["https://tpi.li/imnAM","https://lnbz.la/2BEF","https://oii.la/ZjAu"],
+            ["https://tpi.li/LlUtOodxt","https://lnbz.la/2f3Jpbpz","https://oii.la/lieeLJCy"],
+            ["https://tpi.li/3gED6Bi","https://lnbz.la/2Ga","https://oii.la/X31o6t"],
+            ["https://tpi.li/CvD3MnS71ii","https://lnbz.la/2QXE2sy","https://oii.la/suw"],
+            ["https://tpi.li/CoSTXnvUot","https://lnbz.la/334WYl","https://oii.la/qSvye5bgW"],
+            ["https://tpi.li/LE8At","https://lnbz.la/3b8","https://oii.la/jq8iM3cn"],
+            ["https://tpi.li/nV75Xm","https://lnbz.la/3g8","https://oii.la/aVdQeQebTz"],
+            ["https://tpi.li/19FxTH9UlDM","https://lnbz.la/3i8","https://oii.la/E09ZL89"],
+            ["https://tpi.li/u9UbLEZ","https://lnbz.la/3kZ737Bb","https://oii.la/MNWxAn0x"],
+            ["https://tpi.li/n5M6HBsLvp","https://lnbz.la/40K1aW","https://oii.la/8cBnv"],
+            ["https://tpi.li/AirLJiT3fFF","https://lnbz.la/48wjpwUa","https://oii.la/Cu6i5QSr"],
+            ["https://tpi.li/9PHhBjV","https://lnbz.la/4dLDZf","https://oii.la/64CAr98Tf"],
+            ["https://tpi.li/akcTYUkmkBT","https://lnbz.la/4Sv5","https://oii.la/NzZ16QeqCv"],
+            ["https://tpi.li/mrHH","https://lnbz.la/4udWKjK","https://oii.la/MVIw8rpMn"],
+            ["https://tpi.li/t4tNdDdHw","https://lnbz.la/4VRUGG","https://oii.la/9VWFAyZSsE"],
+            ["https://tpi.li/0GUaK7u7Gx","https://lnbz.la/51EtEIW","https://oii.la/UNs"],
+            ["https://tpi.li/cBvTF","https://lnbz.la/59I","https://oii.la/8r5twZf"],
+            ["https://tpi.li/NhexexzZn8","https://lnbz.la/5YhQlL","https://oii.la/XTBF"],
+            ["https://tpi.li/no4T","https://lnbz.la/6aak","https://oii.la/cNeFuJR"],
+            ["https://tpi.li/rlGbyV27","https://lnbz.la/6G07wtA","https://oii.la/bwQS"],
+            ["https://tpi.li/gRMYltHlPc7","https://lnbz.la/6HEDi1","https://oii.la/iQdvVJG"],
+            ["https://tpi.li/kiNrWZyi4O","https://lnbz.la/6SQZc","https://oii.la/P0p83RZ"],
+            ["https://tpi.li/gOj2aS6Q","https://lnbz.la/6uhwV","https://oii.la/yLSyNactHe"],
+            ["https://tpi.li/6gMDf","https://lnbz.la/7G58G8go","https://oii.la/lEIXVwc"],
+            ["https://tpi.li/1VdrFeL","https://lnbz.la/7lFpuXG1","https://oii.la/6fmKpD29"],
+            ["https://tpi.li/KAHV","https://lnbz.la/8AIMKd","https://oii.la/fVODwY0e0"],
+            ["https://tpi.li/aSdTx4V","https://lnbz.la/8Az","https://oii.la/9ek9zGqaQ"],
+            ["https://tpi.li/boBMdd7GTE","https://lnbz.la/8rCOxj","https://oii.la/hVVlYtIsEK"],
+            ["https://tpi.li/AJbyb0mR6rB","https://lnbz.la/9EF","https://oii.la/OCDlhO"],
+            ["https://tpi.li/zEYFT2zps1","https://lnbz.la/9yDCDZo","https://oii.la/OcyQ"],
+            ["https://tpi.li/2bCb","https://lnbz.la/a3ayu0","https://oii.la/O37Yj"],
+            ["https://tpi.li/P6a","https://lnbz.la/AHZtmtbn","https://oii.la/fFRUVz"],
+            ["https://tpi.li/YNwuULZ","https://lnbz.la/aiax5tFj","https://oii.la/hzcat"],
+            ["https://tpi.li/X6agSjEnG","https://lnbz.la/AmQIcn","https://oii.la/ochag"],
+            ["https://tpi.li/aAMGGjO0Y","https://lnbz.la/AOiVl4Kr","https://oii.la/UVm"],
+            ["https://tpi.li/AIE8wwW7R","https://lnbz.la/aXP","https://oii.la/TuDqSCuLq"],
+            ["https://tpi.li/M7pEFCna0RF","https://lnbz.la/B9n1","https://oii.la/ED8pu4jTpl"],
+            ["https://tpi.li/8nYPx5Vsds","https://lnbz.la/bGK","https://oii.la/jNwJlCU"],
+            ["https://tpi.li/3MfOF4z1","https://lnbz.la/BlcnFyQu","https://oii.la/bUPTpgQ5Ay"],
+            ["https://tpi.li/oHxqVVpQlgM","https://lnbz.la/bldXBi0","https://oii.la/CHCOdo"],
+            ["https://tpi.li/H8nnbIb","https://lnbz.la/c8nue","https://oii.la/XquwQVJCBW"],
+            ["https://tpi.li/IbtciJTGc","https://lnbz.la/CyX","https://oii.la/fStiGsup"],
+            ["https://tpi.li/KQQejCWwd","https://lnbz.la/d2m1a","https://oii.la/pSyE"],
+            ["https://tpi.li/zhFwZ3sDGX","https://lnbz.la/dck8IPoB","https://oii.la/7z0Yv"],
+            ["https://tpi.li/Ju1elaU2CQ","https://lnbz.la/DHDPKcL","https://oii.la/uchm32c"],
+            ["https://tpi.li/OpZ3l0P","https://lnbz.la/dvP","https://oii.la/nhhr"],
+            ["https://tpi.li/KTWK","https://lnbz.la/dxXq","https://oii.la/HzKK1"],
+            ["https://tpi.li/HMBTpGe","https://lnbz.la/EB8c","https://oii.la/KixO"],
+            ["https://tpi.li/dA1fEH7eoZM","https://lnbz.la/ekS7","https://oii.la/PWOBTv"],
+            ["https://tpi.li/fKuCYZ4wWV","https://lnbz.la/EoVr","https://oii.la/IOhHbGrd"],
+            ["https://tpi.li/HSOucIT8","https://lnbz.la/EQH9J","https://oii.la/ej2Whz"],
+            ["https://tpi.li/uDS71d","https://lnbz.la/EtOJ","https://oii.la/2gH5Z"],
+            ["https://tpi.li/LbU8K5Lys","https://lnbz.la/eTrJCAV","https://oii.la/lnVGWJ"],
+            ["https://tpi.li/ghpqfP","https://lnbz.la/f2G","https://oii.la/htfdE8D"],
+            ["https://tpi.li/NGp4cdO","https://lnbz.la/F2U5mfKs","https://oii.la/oSTOJdHV"],
+            ["https://tpi.li/unk9","https://lnbz.la/F8LChWCj","https://oii.la/MLMkiZrMbT"],
+            ["https://tpi.li/h4m5KX","https://lnbz.la/fFdpF5z","https://oii.la/YyMx"],
+            ["https://tpi.li/zHlf","https://lnbz.la/Ffp4IMj","https://oii.la/uEc3A137mC"],
+            ["https://tpi.li/DLfYS","https://lnbz.la/Fxe6","https://oii.la/ZCUzL1wv9Y"],
+            ["https://tpi.li/eDReD","https://lnbz.la/FzH6mjo","https://oii.la/DJhtN"],
+            ["https://tpi.li/Vu52","https://lnbz.la/FZQ3","https://oii.la/oYoU0"],
+            ["https://tpi.li/5GJP9","https://lnbz.la/G71swc5T","https://oii.la/vc3R"],
+            ["https://tpi.li/vfuCTPyNs","https://lnbz.la/g7f","https://oii.la/vNFpsO"],
+            ["https://tpi.li/EACvhVMEh38","https://lnbz.la/GmPgtR","https://oii.la/OdIxo8yRf7"],
+            ["https://tpi.li/fYOijvZ7V","https://lnbz.la/GPrbuut","https://oii.la/L3aVOe"],
+            ["https://tpi.li/jY5yMAMNKF","https://lnbz.la/GPtHev","https://oii.la/6AurY"],
+            ["https://tpi.li/uz90HgkR9","https://lnbz.la/GU0SZuZ4","https://oii.la/KKZifm"],
+            ["https://tpi.li/GhoRZ10","https://lnbz.la/Hd9IfP","https://oii.la/4H6h"],
+            ["https://tpi.li/CBLm4Km","https://lnbz.la/hDDckS","https://oii.la/QcEk8"],
+            ["https://tpi.li/g5e6","https://lnbz.la/hFspP9D","https://oii.la/qhIb8Py0wi"],
+            ["https://tpi.li/Bt668ItfQR","https://lnbz.la/HLxd","https://oii.la/VBnRRJyXd"],
+            ["https://tpi.li/Jz1g","https://lnbz.la/i7ykEq4H","https://oii.la/9fGeEzCyqq"],
+            ["https://tpi.li/PGqQN","https://lnbz.la/iF3F4","https://oii.la/uDnMstN0"],
+            ["https://tpi.li/XOQre","https://lnbz.la/iGV","https://oii.la/znlKTsMKPi"],
+            ["https://tpi.li/dET5","https://lnbz.la/iicYDSh1","https://oii.la/4p5k"],
+            ["https://tpi.li/quTE4i","https://lnbz.la/iRrgTB","https://oii.la/B8HEqLIv"],
+            ["https://tpi.li/ifrbB8p","https://lnbz.la/isuMJNT","https://oii.la/aLqO7"],
+            ["https://tpi.li/aHbvyIBXo","https://lnbz.la/ISv","https://oii.la/8Dd7"],
+            ["https://tpi.li/JaId","https://lnbz.la/ITin","https://oii.la/bNPBRAUWF"],
+            ["https://tpi.li/U9l","https://lnbz.la/IZXVodB","https://oii.la/rCiCTUm"],
+            ["https://tpi.li/u71a2PaNHN0","https://lnbz.la/j5Xh","https://oii.la/AkG5SpukMc"],
+            ["https://tpi.li/0Dsp5CAN","https://lnbz.la/j7gZ2O","https://oii.la/0OYcDKo1"],
+            ["https://tpi.li/eXa7u","https://lnbz.la/j8jO0FE","https://oii.la/l0CmMtue0x"],
+            ["https://tpi.li/CkbG","https://lnbz.la/jkXNm","https://oii.la/6ANnzuN8"],
+            ["https://tpi.li/ZAEw9","https://lnbz.la/jNFJ1","https://oii.la/DQ0mq0"],
+            ["https://tpi.li/Hh9RM","https://lnbz.la/jNne9m","https://oii.la/8eHp8lz"],
+            ["https://tpi.li/JWw","https://lnbz.la/JUJm","https://oii.la/xykhyD3s"],
+            ["https://tpi.li/WOAvzGakKx","https://lnbz.la/JWUX6Fw","https://oii.la/LMu6P01"],
+            ["https://tpi.li/HZWFR","https://lnbz.la/jX9v","https://oii.la/faFUnU"],
+            ["https://tpi.li/e3ICwHbV","https://lnbz.la/jZ13","https://oii.la/vC5k"],
+            ["https://tpi.li/CiX5a","https://lnbz.la/K03Zdai","https://oii.la/mu0"],
+            ["https://tpi.li/synrd","https://lnbz.la/kAzN","https://oii.la/dK7NVkue"],
+            ["https://tpi.li/LuP5","https://lnbz.la/KClDjT","https://oii.la/p4SB6JhrZ"],
+            ["https://tpi.li/RtgdK","https://lnbz.la/Kkan2C1f","https://oii.la/J0TWaP5at2"],
+            ["https://tpi.li/MXPOPvb","https://lnbz.la/knB6Xf4","https://oii.la/zCJTHx0"],
+            ["https://tpi.li/DMXJOtiP1c","https://lnbz.la/KQhOccgv","https://oii.la/epZm"],
+            ["https://tpi.li/UrIYw","https://lnbz.la/KtgfrK8","https://oii.la/8qGShMbasJ"],
+            ["https://tpi.li/Lvx2oKzvF","https://lnbz.la/l2IwKLG","https://oii.la/ynHY"],
+            ["https://tpi.li/1SWrRbK22N","https://lnbz.la/l6e","https://oii.la/RYQ5Czf69I"],
+            ["https://tpi.li/A6t07EMf","https://lnbz.la/laOTb23","https://oii.la/iFbL"],
+            ["https://tpi.li/OQpfmk","https://lnbz.la/LpV","https://oii.la/9RyjhA"],
+            ["https://tpi.li/hMv4ENP42sR","https://lnbz.la/LRBhp7","https://oii.la/ByxiC"],
+            ["https://tpi.li/D2uhmBLmt","https://lnbz.la/luxRe","https://oii.la/vqH3wy2VL"],
+            ["https://tpi.li/v7hB4ZsJ7","https://lnbz.la/lzkvM6g","https://oii.la/jdohF"],
+            ["https://tpi.li/fS1NQ","https://lnbz.la/mCU","https://oii.la/F0Jd"],
+            ["https://tpi.li/0LmJqSKuH","https://lnbz.la/Mg8rp","https://oii.la/VrmK4VDP"],
+            ["https://tpi.li/0VgHPbi","https://lnbz.la/mlU","https://oii.la/3DsnQgRbu0"],
+            ["https://tpi.li/s6Poq2","https://lnbz.la/mmGwVmo","https://oii.la/6v9bByu1"],
+            ["https://tpi.li/O4iD7cLrL","https://lnbz.la/mmxc","https://oii.la/320V3QvwA"],
+            ["https://tpi.li/4uGvRYP5n1M","https://lnbz.la/mr0OQ2","https://oii.la/MCR1msd"],
+            ["https://tpi.li/N3Jm","https://lnbz.la/MTfVtt7k","https://oii.la/LaAhKYAJr"],
+            ["https://tpi.li/q5L1eKD0l","https://lnbz.la/mYgwdtO0","https://oii.la/u0MH"],
+            ["https://tpi.li/uxqVNpGU","https://lnbz.la/N5V1","https://oii.la/JAsL"],
+            ["https://tpi.li/PKunu5DZ6","https://lnbz.la/ndJ0","https://oii.la/Kdw52pJRyA"],
+            ["https://tpi.li/CRVVMxH5","https://lnbz.la/NXw","https://oii.la/65L3G6Ecjd"],
+            ["https://tpi.li/oP4VblM41","https://lnbz.la/NZlv","https://oii.la/Tbh4TiAkF"],
+            ["https://tpi.li/YWkwNSPf","https://lnbz.la/oa7K","https://oii.la/65sd3ZcRzN"],
+            ["https://tpi.li/KOBNkAhz","https://lnbz.la/OHvWwi","https://oii.la/dZA0Xc"],
+            ["https://tpi.li/fWEq6zNtly","https://lnbz.la/OMBfxHl","https://oii.la/QDPrNSr8Ar"],
+            ["https://tpi.li/A9wVJZ","https://lnbz.la/oVwyfEbu","https://oii.la/FO9E"],
+            ["https://tpi.li/HeqS7U","https://lnbz.la/OZmiH","https://oii.la/WJRr5O"],
+            ["https://tpi.li/mqIgVfd","https://lnbz.la/p3jpc","https://oii.la/ymbfYv4Z"],
+            ["https://tpi.li/fjve","https://lnbz.la/PDg","https://oii.la/4oWrVCJTeD"],
+            ["https://tpi.li/ifKhhx","https://lnbz.la/PPQrX","https://oii.la/bVUk"],
+            ["https://tpi.li/yH5a3K","https://lnbz.la/PqMlrs","https://oii.la/20T"],
+            ["https://tpi.li/L9f","https://lnbz.la/q8yVpGpZ","https://oii.la/ud7ZORRtc"],
+            ["https://tpi.li/KX795nK5cA8","https://lnbz.la/Q8zI49Db","https://oii.la/HATLcdCbO"],
+            ["https://tpi.li/Hwwwm2l","https://lnbz.la/r1ye3bTR","https://oii.la/oh8J9cAXo"],
+            ["https://tpi.li/rmUISANqA","https://lnbz.la/R5CmLhOI","https://oii.la/hvdYt"],
+            ["https://tpi.li/esxGYEN","https://lnbz.la/R6n","https://oii.la/Cobd9zXm"],
+            ["https://tpi.li/D1tq5AZUJ","https://lnbz.la/R9sk","https://oii.la/BUqSkcf6q8"],
+            ["https://tpi.li/Vr9QAhNks8","https://lnbz.la/RNr6","https://oii.la/b8s"],
+            ["https://tpi.li/kwAk0FBRU31","https://lnbz.la/rqHqQe","https://oii.la/JFjU"],
+            ["https://tpi.li/y2k6le1Ap","https://lnbz.la/ruIEw","https://oii.la/KDmWs6d"],
+            ["https://tpi.li/imnAM","https://lnbz.la/s3Q3bg","https://oii.la/C9mHyCzJ"],
+            ["https://tpi.li/LlUtOodxt","https://lnbz.la/s5a","https://oii.la/LZagTx"],
+            ["https://tpi.li/3gED6Bi","https://lnbz.la/sHlgtJ","https://oii.la/MxLzxh"],
+            ["https://tpi.li/CvD3MnS71ii","https://lnbz.la/sLEQ","https://oii.la/lyZwJdK"],
+            ["https://tpi.li/CoSTXnvUot","https://lnbz.la/snM","https://oii.la/DzcF"],
+            ["https://tpi.li/LE8At","https://lnbz.la/stMnpnkU","https://oii.la/kARxr0ze"],
+            ["https://tpi.li/nV75Xm","https://lnbz.la/t2nR4","https://oii.la/FWpbI9EG7l"],
+            ["https://tpi.li/19FxTH9UlDM","https://lnbz.la/T5sYBS","https://oii.la/QCUtYW7"],
+            ["https://tpi.li/u9UbLEZ","https://lnbz.la/TEq8wim","https://oii.la/8Es2DL19U"],
+            ["https://tpi.li/n5M6HBsLvp","https://lnbz.la/Thi","https://oii.la/hutDchdX"],
+            ["https://tpi.li/AirLJiT3fFF","https://lnbz.la/tiUlUeu","https://oii.la/5vxd9"],
+            ["https://tpi.li/9PHhBjV","https://lnbz.la/TLHLnP","https://oii.la/OsRSv9V8Y"],
+            ["https://tpi.li/akcTYUkmkBT","https://lnbz.la/Tpnh5iCo","https://oii.la/F86JesOl"],
+            ["https://tpi.li/mrHH","https://lnbz.la/txWr","https://oii.la/h9c45CeJ"],
+            ["https://tpi.li/t4tNdDdHw","https://lnbz.la/TzhA","https://oii.la/IkE"],
+            ["https://tpi.li/0GUaK7u7Gx","https://lnbz.la/u6PRp0U8","https://oii.la/2rN"],
+            ["https://tpi.li/cBvTF","https://lnbz.la/ub5rbGN","https://oii.la/uj9LP3Dn"],
+            ["https://tpi.li/NhexexzZn8","https://lnbz.la/unM","https://oii.la/x4PNmYr"],
+            ["https://tpi.li/no4T","https://lnbz.la/uNWVr0XX","https://oii.la/u1mgHk4jm"],
+            ["https://tpi.li/rlGbyV27","https://lnbz.la/ups","https://oii.la/OdRAdy"],
+            ["https://tpi.li/gRMYltHlPc7","https://lnbz.la/urlU","https://oii.la/dN9VJzcfB"],
+            ["https://tpi.li/kiNrWZyi4O","https://lnbz.la/uyh8fAOX","https://oii.la/bT8OzR2"],
+            ["https://tpi.li/gOj2aS6Q","https://lnbz.la/VDgIV","https://oii.la/pIfRMn5U6R"],
+            ["https://tpi.li/6gMDf","https://lnbz.la/vdsa","https://oii.la/xqmPSc8gIm"],
+            ["https://tpi.li/1VdrFeL","https://lnbz.la/VFzOaCe","https://oii.la/5tJxF"],
+            ["https://tpi.li/KAHV","https://lnbz.la/vH5","https://oii.la/wgq9Rh"],
+            ["https://tpi.li/aSdTx4V","https://lnbz.la/VmGXE","https://oii.la/R88j"],
+            ["https://tpi.li/boBMdd7GTE","https://lnbz.la/VnP1BHa","https://oii.la/9t2"],
+            ["https://tpi.li/AJbyb0mR6rB","https://lnbz.la/VWjt2o","https://oii.la/HJgmezFFye"],
+            ["https://tpi.li/zEYFT2zps1","https://lnbz.la/VYSi","https://oii.la/PsK1"],
+            ["https://tpi.li/2bCb","https://lnbz.la/W3OZgSZ","https://oii.la/vNx"],
+            ["https://tpi.li/P6a","https://lnbz.la/w7ow","https://oii.la/6aT"],
+            ["https://tpi.li/YNwuULZ","https://lnbz.la/We0","https://oii.la/Xgp3UdW"],
+            ["https://tpi.li/X6agSjEnG","https://lnbz.la/WPLqqF","https://oii.la/AVEVs7gXe"],
+            ["https://tpi.li/aAMGGjO0Y","https://lnbz.la/WR1A","https://oii.la/K3wgljr2x"],
+            ["https://tpi.li/AIE8wwW7R","https://lnbz.la/wUGx0a5m","https://oii.la/LXRvEnSt"],
+            ["https://tpi.li/M7pEFCna0RF","https://lnbz.la/x4e1","https://oii.la/rWX2"],
+            ["https://tpi.li/8nYPx5Vsds","https://lnbz.la/X8b","https://oii.la/FNacSLYsoI"],
+            ["https://tpi.li/3MfOF4z1","https://lnbz.la/xElg800","https://oii.la/4tZ10eY"],
+            ["https://tpi.li/oHxqVVpQlgM","https://lnbz.la/XJmJWRE","https://oii.la/RD9Thqqwc0"],
+            ["https://tpi.li/H8nnbIb","https://lnbz.la/xlQsr3A","https://oii.la/WdTkTppQw"],
+            ["https://tpi.li/IbtciJTGc","https://lnbz.la/XsFss2YH","https://oii.la/ses9igMy93"],
+            ["https://tpi.li/KQQejCWwd","https://lnbz.la/xUn5Y9G","https://oii.la/xlOmddB"],
+            ["https://tpi.li/boBMdd7GTE","https://lnbz.la/Y1hTd3k","https://oii.la/s8hO2RipdI"],
+            ["https://tpi.li/AJbyb0mR6rB","https://lnbz.la/y94Z","https://oii.la/Su5nwXf6aT"],
+            ["https://tpi.li/zEYFT2zps1","https://lnbz.la/Y9EbJ","https://oii.la/Ven2"],
+            ["https://tpi.li/2bCb","https://lnbz.la/YILpRPlG","https://oii.la/NyYah"],
+            ["https://tpi.li/P6a","https://lnbz.la/yNO","https://oii.la/z3rVl"],
+            ["https://tpi.li/YNwuULZ","https://lnbz.la/yOg","https://oii.la/h1Lmcgw9C"],
+            ["https://tpi.li/X6agSjEnG","https://lnbz.la/ZhlLT5a","https://oii.la/FUhZxYPtZZ"],
+            ["https://tpi.li/aAMGGjO0Y","https://lnbz.la/Zmfvk","https://oii.la/H8uAnZ7e"],
+            ["https://tpi.li/AIE8wwW7R","https://lnbz.la/ZsMGWyv","https://oii.la/A5d"],
+            ["https://tpi.li/M7pEFCna0RF","https://lnbz.la/zT26P","https://oii.la/uqImc0Bb"],
+            ["https://tpi.li/8nYPx5Vsds","https://lnbz.la/ZVvg","https://oii.la/ACqfGjJBu"],
+            ["https://tpi.li/iiBgPzFmdfT","https://lnbz.la/MTfVtt7k","https://oii.la/SZ9GAHWD"],
+            ["https://tpi.li/yH5a3K","https://lnbz.la/mYgwdtO0","https://oii.la/bQSrvNrM6m"],
+            ["https://tpi.li/L9f","https://lnbz.la/N5V1","https://oii.la/i0wIJzlq"],
+            ["https://tpi.li/KX795nK5cA8","https://lnbz.la/ndJ0","https://oii.la/85AjH"],
+            ["https://tpi.li/Hwwwm2l","https://lnbz.la/NXw","https://oii.la/8ngL"],
+            ["https://tpi.li/rmUISANqA","https://lnbz.la/NZlv","https://oii.la/vAhaq"],
+            ["https://tpi.li/esxGYEN","https://lnbz.la/oa7K","https://oii.la/uh8NaYDWu"],
+            ["https://tpi.li/D1tq5AZUJ","https://lnbz.la/OHvWwi","https://oii.la/N0G"],
+            ["https://tpi.li/Vr9QAhNks8","https://lnbz.la/OMBfxHl","https://oii.la/K4O555GsOv"],
+            ["https://tpi.li/kwAk0FBRU31","https://lnbz.la/oVwyfEbu","https://oii.la/s0OA2GXz5"],
+            ["https://tpi.li/y2k6le1Ap","https://lnbz.la/OZmiH","https://oii.la/N8EB4EJ"],
+            ["https://tpi.li/imnAM","https://lnbz.la/p3jpc","https://oii.la/6xS8Nezo"],
+            ["https://tpi.li/LlUtOodxt","https://lnbz.la/PDg","https://oii.la/zN22iz5tk"],
+            ["https://tpi.li/3gED6Bi","https://lnbz.la/PPQrX","https://oii.la/Y0QxgZOp"],
+            ["https://tpi.li/CvD3MnS71ii","https://lnbz.la/PqMlrs","https://oii.la/toMKrZ"],
+            ["https://tpi.li/CoSTXnvUot","https://lnbz.la/q8yVpGpZ","https://oii.la/nT9ugthdP"],
+            ["https://tpi.li/LE8At","https://lnbz.la/Q8zI49Db","https://oii.la/3160L0yBh"],
+            ["https://tpi.li/nV75Xm","https://lnbz.la/r1ye3bTR","https://oii.la/Q9RAorUGiK"],
+            ["https://tpi.li/19FxTH9UlDM","https://lnbz.la/R5CmLhOI","https://oii.la/y9wzIfIm9"],
+            ["https://tpi.li/u9UbLEZ","https://lnbz.la/R6n","https://oii.la/YF6Rj7"],
+            ["https://tpi.li/n5M6HBsLvp","https://lnbz.la/R9sk","https://oii.la/A8b1gu6v"],
+            ["https://tpi.li/AirLJiT3fFF","https://lnbz.la/RNr6","https://oii.la/yA2X"],
+            ["https://tpi.li/9PHhBjV","https://lnbz.la/rqHqQe","https://oii.la/18U5AL"]
+        ];
+
+        async function fetchPage(page) {
+            try {
+                const url = `${BASE_URL}?number=${PER_PAGE}&page=${page}`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Network error');
+                const data = await response.json();
+                return data.posts || [];
+            } catch (error) {
+                console.error('API fetch failed:', error);
+                return [];
+            }
+        }
+
+        function renderGrid(posts) {
+            const grid = document.getElementById('movieGrid');
+
+            posts.forEach(post => {
+                const year = new Date(post.date).getFullYear();
+                const genres = post.categories ? Object.values(post.categories).map(cat => cat.name || cat.title || cat).join(', ') : 'Uncategorized';
+                const synopsis = post.content ? post.content.replace(/<[^>]*>/g, '').substring(0, 100) + '...' : 'No description.';
+                
+                let posterUrl = 'https://via.placeholder.com/300x450/ff0000/ffffff?text=No+Image';
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(post.content, 'text/html');
+                const img = doc.querySelector('img');
+                if (img && img.src) posterUrl = img.src;
+
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.setAttribute('data-title', post.title.toLowerCase());
+                card.innerHTML = `
+                    <img src="${posterUrl}" alt="${post.title} Hindi Dubbed Poster" class="movie-poster" onerror="this.src='https://via.placeholder.com/300x450/ff0000/ffffff?text=No+Image'">
+                    <div class="movie-info">
+                        <h5>${post.title} (${year})</h5>
+                        <p class="rating">★ 7.0</p>
+                        <p><strong>${genres}</strong></p>
+                        <p>${synopsis}</p>
+                        <button type="button" class="btn btn-danger show-detail" onclick="showDetail(${post.ID}, event)">Watch / Download</button>
+                        <button type="button" class="btn btn-success share-btn" onclick="openShareModal(${post.ID}, '${post.title.replace(/'/g, "\\'")}', '${posterUrl.replace(/'/g, "\\'")}', event)">Share</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        async function loadMoreMovies() {
+            if (isLoading || !hasMore) return;
+            isLoading = true;
+            document.getElementById('loadingSpinner').classList.remove('hidden');
+
+            const posts = await fetchPage(currentPage);
+            if (posts.length === 0) {
+                hasMore = false;
+            } else {
+                renderGrid(posts);
+                currentPage++;
+                if (posts.length < PER_PAGE) hasMore = false;
+            }
+
+            isLoading = false;
+            document.getElementById('loadingSpinner').classList.add('hidden');
+        }
+
+        async function showDetail(postId, event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            try {
+                const response = await fetch(`${BASE_URL}/${postId}`);
+                if (!response.ok) throw new Error('Post fetch failed');
+                const post = await response.json();
+
+                // Extract poster
+                let posterUrl = 'https://via.placeholder.com/600x400/ff0000/ffffff?text=No+Poster';
+                const imgMatch = post.content.match(/<img[^>]+src=["'](.*?)["']/i);
+                if (imgMatch && imgMatch[1]) posterUrl = imgMatch[1];
+
+                // Extract YouTube trailer
+                let youtubeUrl = '';
+                const patterns = [/youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/i, /youtu\.be\/([a-zA-Z0-9_-]{11})/i, /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/i];
+                for (const pattern of patterns) {
+                    const match = post.content.match(pattern);
+                    if (match) {
+                        youtubeUrl = `https://www.youtube.com/embed/${match[1]}?autoplay=1&mute=1&rel=0`;
+                        break;
+                    }
+                }
+                let videoSection = youtubeUrl ? `<div class="trailer my-3"><iframe src="${youtubeUrl}" allowfullscreen allow="autoplay"></iframe></div>` : '';
+
+                // Extra sources section
+                let extraSourcesHtml = '<div class="mt-4 p-3 bg-dark border border-secondary rounded">';
+                extraSourcesHtml += '<h3 class="text-danger mb-3">Download Link below</h3>';
+               
+                if (sources.length > 0) {
+                    let selected = [];
+                    let available = [...sources];
+                    for (let i = 0; i < 3 && available.length > 0; i++) {
+                        const idx = Math.floor(Math.random() * available.length);
+                        selected.push(available.splice(idx, 1)[0]);
+                    }
+
+                    selected.forEach((row, i) => {
+                        extraSourcesHtml += `<h5 class="mt-3">Source ${i + 1}</h5>`;
+                        extraSourcesHtml += `<div class="d-flex flex-wrap gap-3">`;
+                        
+                        ['480p', '720p', '1080p'].forEach((label, j) => {
+                            const url = row[j];
+                            if (url && url.startsWith('http')) {
+                                extraSourcesHtml += `
+                                    <a href="${url}" target="_blank" rel="noopener nofollow" 
+                                       class="btn btn-outline-light btn-sm">
+                                        ${label}
+                                    </a>`;
+                            } else {
+                                extraSourcesHtml += `<span class="badge bg-secondary">${label}: N/A</span>`;
+                            }
+                        });
+                        extraSourcesHtml += `</div>`;
+                    });
+                } else {
+                    extraSourcesHtml += '<p class="text-muted">No download sources available.</p>';
+                }
+
+                extraSourcesHtml += '</div>';
+
+                document.getElementById('movieModalLabel').textContent = post.title;
+                document.getElementById('modalContent').innerHTML = `
+                    <img src="${posterUrl}" alt="${post.title} Poster" class="img-fluid mb-4 rounded" style="max-height:500px;" onerror="this.src='https://via.placeholder.com/600x400/ff0000/ffffff?text=No+Poster'">
+                    ${videoSection}
+                    ${extraSourcesHtml}
+                `;
+
+                new bootstrap.Modal(document.getElementById('movieModal')).show();
+            } catch (error) {
+                console.error(error);
+                alert('Failed to load movie details.');
+            }
+        }
+
+        function openShareModal(postId, title, poster, event) {
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            currentShareData = { postId, title, poster };
+
+            document.getElementById('sharePreview').innerHTML = `
+                <strong>${title}</strong><br>
+                <img src="${poster}" alt="Poster" style="max-width:100%; height:auto; margin:10px 0; border-radius:8px;">
+            `;
+
+            new bootstrap.Modal(document.getElementById('shareModal')).show();
+        }
+
+        function shareTo(platform) {
+            if (!currentShareData) return;
+
+            const { title, poster } = currentShareData;
+
+            // Pick 3 random sources (same logic as modal)
+            let selectedLinks = [];
+            if (sources.length > 0) {
+                let available = [...sources];
+                for (let i = 0; i < 3 && available.length > 0; i++) {
+                    const idx = Math.floor(Math.random() * available.length);
+                    const group = available.splice(idx, 1)[0];
+                    // Take the first valid link from each group (or fallback)
+                    const link = group.find(u => u && u.startsWith('http')) || group[0] || 'No link available';
+                    selectedLinks.push(link);
+                }
+            }
+
+            // Clean formatted text to copy
+            const copyText = `${title}\n\nPoster: ${poster}\n\nDownload Links:\n480p: ${selectedLinks[0] || 'N/A'}\n720p: ${selectedLinks[1] || 'N/A'}\n1080p: ${selectedLinks[2] || 'N/A'}`;
+
+            if (platform === 'copy') {
+                navigator.clipboard.writeText(copyText).then(() => {
+                    alert('Copied!\n\nTitle + Poster + 3 random download links are now in your clipboard.');
+                }).catch(() => {
+                    alert('Copy failed. Please try manually.');
+                });
+                return;
+            }
+
+            // Other platforms (Telegram, WhatsApp, Instagram) keep original behavior
+            let url;
+            if (platform === 'telegram') {
+                url = `https://t.me/share/url?url=${encodeURIComponent(poster)}&text=${encodeURIComponent(copyText)}`;
+            } else if (platform === 'whatsapp') {
+                url = `whatsapp://send?text=${encodeURIComponent(copyText)}`;
+            } else if (platform === 'instagram') {
+                navigator.clipboard.writeText(copyText);
+                alert('Text copied – paste in Instagram (title + poster + 3 links)');
+                return;
+            }
+
+            if (url) window.open(url, '_blank');
+        }
+
+        function searchMovies() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.movie-card').forEach(card => {
+                const title = card.querySelector('h5').textContent.toLowerCase();
+                card.style.display = title.includes(input) ? 'block' : 'none';
+            });
+        }
+
+        function handleScroll() {
+            if (isLoading || !hasMore) return;
+
+            const spinner = document.getElementById('loadingSpinner');
+            if (spinner.getBoundingClientRect().top < window.innerHeight + 200) {
+                loadMoreMovies();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMoreMovies();
+            document.getElementById('searchInput').addEventListener('input', searchMovies);
+            window.addEventListener('scroll', handleScroll);
+            window.addEventListener('touchmove', handleScroll);
+
+            document.getElementById('shareTelegram')?.addEventListener('click', e => { e.preventDefault(); shareTo('telegram'); });
+            document.getElementById('shareWhatsapp')?.addEventListener('click', e => { e.preventDefault(); shareTo('whatsapp'); });
+            document.getElementById('shareInstagram')?.addEventListener('click', e => { e.preventDefault(); shareTo('instagram'); });
+            document.getElementById('shareCopy')?.addEventListener('click', e => { e.preventDefault(); shareTo('copy'); });
+        });
+    </script>
+</body>
+</html>
