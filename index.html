@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>KatMovie Hub • Premium Hindi Dubbed Movies</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Tailwind via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#e11d48',
+                        dark: '#0f0f0f',
+                        card: '#171717',
+                    },
+                    screens: {
+                        'xs': '480px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --card: #171717;
+            --text: #e5e5e5;
+            --accent: #e11d48;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        .movie-card {
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: var(--card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .movie-card:hover {
+            transform: translateY(-12px) scale(1.04);
+            box-shadow: 0 25px 50px -12px rgba(225, 29, 72, 0.35);
+        }
+        .glass {
+            background: rgba(23, 23, 23, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .btn-premium {
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #e11d48, #be123c);
+            padding: 10px 16px;
+            font-size: 0.95rem;
+        }
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(225, 29, 72, 0.4);
+        }
+        .trailer iframe {
+            border-radius: 16px;
+            overflow: hidden;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+        #movieGrid {
+            min-height: 60vh;
+        }
+        @media (max-width: 640px) {
+            .text-3xl { font-size: 1.75rem; }
+            .text-xl { font-size: 1.25rem; }
+            .btn-premium { padding: 12px 20px; font-size: 1rem; }
+            .header h1 { font-size: 1.75rem; }
+            .searchInput { width: 100% !important; max-width: none; }
+        }
+        @media (max-width: 480px) {
+            main { padding-left: 1rem; padding-right: 1rem; padding-top: 2rem; }
+            .movie-card h5 { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black text-gray-100 antialiased">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-gradient-to-b from-black/90 to-transparent backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <h1 class="text-3xl font-bold bg-gradient-to-r from-rose-500 to-rose-600 bg-clip-text text-transparent">
+                KatMovie Hub
+            </h1>
+            <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                <input type="text" id="searchInput" placeholder="Search movies..." class="w-full sm:w-64 bg-gray-900/60 border border-gray-700 rounded-full px-5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500/40 transition">
+                <div class="flex gap-6 text-sm sm:text-base">
+                    <button class="text-gray-300 hover:text-white transition">Home</button>
+                    <button class="text-gray-300 hover:text-white transition">Movies</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Trailer -->
+    <div class="relative w-full aspect-video max-h-[60vh] overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent z-10"></div>
+        <iframe class="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/lU46B_5Vel4?autoplay=1&mute=1&loop=1&playlist=lU46B_5Vel4&controls=0&rel=0&modestbranding=1&iv_load_policy=3"
+                allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-8 text-center bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+            Latest Hindi Dubbed Movies
+        </h2>
+
+        <div id="movieGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6"></div>
+
+        <div id="loadingSpinner" class="text-center py-12 sm:py-16 text-rose-500 font-medium hidden">
+            Loading premium content...
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-gray-800/50 py-8 sm:py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center text-gray-500 text-sm">
+            <p>© 2025 KatMovie Hub • Premium Hindi Dubbed Movies</p>
+            <div class="mt-4">
+                <strong class="text-gray-300">Total Visitors:</strong>
+                <div id="sfcqlbucnf32sxf5nquu5j6z63t953ytyzk" class="inline-block ml-2"></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Movie Detail Modal -->
+    <div id="movieModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content glass rounded-2xl overflow-hidden">
+                <div class="modal-header border-b border-gray-700/50 px-5 py-3 sm:px-6 sm:py-4">
+                    <h5 class="modal-title text-lg sm:text-xl font-semibold" id="movieModalLabel"></h5>
+                    <button type="button" class="text-gray-400 hover:text-white text-xl sm:text-2xl" data-bs-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body p-4 sm:p-6" id="modalContent"></div>
+                <div class="modal-footer border-t border-gray-700/50 px-4 py-3 sm:px-6 sm:py-4">
+                    <button type="button" class="btn-premium px-5 py-2.5 sm:px-6 sm:py-2.5 text-white rounded-lg font-medium transition w-full sm:w-auto" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div class="modal fade" id="shareModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass rounded-2xl">
+                <div class="modal-header border-b border-gray-700/50 px-5 py-3 sm:px-6 sm:py-4">
+                    <h5 class="text-base sm:text-lg font-semibold">Share Movie</h5>
+                    <button type="button" class="text-gray-400 hover:text-white text-xl sm:text-2xl" data-bs-dismiss="modal">×</button>
+                </div>
+                <div class="modal-body p-4 sm:p-6 text-center">
+                    <p id="sharePreview" class="mb-4 sm:mb-6"></p>
+                    <div class="share-options flex flex-wrap justify-center gap-3 sm:gap-4">
+                        <a href="#" id="shareTelegram" class="telegram px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg font-medium text-sm sm:text-base">Telegram</a>
+                        <a href="#" id="shareWhatsapp" class="whatsapp px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg font-medium text-sm sm:text-base">WhatsApp</a>
+                        <a href="#" id="shareInstagram" class="instagram px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg font-medium text-sm sm:text-base">Instagram</a>
+                        <button id="shareCopy" class="copy-btn px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg font-medium text-sm sm:text-base">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentPage = 1;
+        let isLoading = false;
+        let hasMore = true;
+        const PER_PAGE = 100;
+        const BASE_URL = 'https://public-api.wordpress.com/rest/v1/sites/katmoviehddotpk.wordpress.com/posts';
+
+        let currentShareData = null;
+        let sources = [];
+
+        // ==================== IMPORTANT ====================
+        // Replace this with your FULL list of 222 source groups
+        sources = [
+            ["https://tpi.li/iiBgPzFmdfT","https://lnbz.la/0AC6","https://oii.la/KgVIs"],
+            ["https://tpi.li/yH5a3K","https://lnbz.la/0dQJf","https://oii.la/zx6IcQX8Dm"],
+            ["https://tpi.li/L9f","https://lnbz.la/0IPJ","https://oii.la/4H85xKs"],
+            // ... paste ALL your remaining source groups here ...
+        ];
+
+        async function fetchPage(page) {
+            try {
+                const url = `${BASE_URL}?number=${PER_PAGE}&page=${page}`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
+                return data.posts || [];
+            } catch (error) {
+                console.error('API fetch failed:', error);
+                return [];
+            }
+        }
+
+        function renderGrid(posts) {
+            const grid = document.getElementById('movieGrid');
+
+            posts.forEach(post => {
+                const year = new Date(post.date).getFullYear();
+                let posterUrl = 'https://via.placeholder.com/300x450/ff0000/ffffff?text=No+Image';
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(post.content || '', 'text/html');
+                const img = doc.querySelector('img');
+                if (img && img.src) posterUrl = img.src;
+
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.setAttribute('data-title', post.title.toLowerCase());
+                card.innerHTML = `
+                    <img src="${posterUrl}" alt="${post.title}" class="w-full h-48 sm:h-64 object-cover">
+                    <div class="p-3 sm:p-4">
+                        <h5 class="font-semibold text-base sm:text-lg mb-1 truncate">${post.title} (${year})</h5>
+                        <p class="text-rose-500 font-bold text-sm sm:text-base mb-2">★ 7.0</p>
+                        <button type="button" class="btn-premium w-full py-2 text-sm sm:text-base rounded-lg font-medium mt-1" onclick="showDetail(${post.ID}, event)">Watch / Download</button>
+                        <button type="button" class="w-full py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition mt-2 text-sm sm:text-base" onclick="openShareModal(${post.ID}, '${post.title.replace(/'/g, "\\'")}', '${posterUrl.replace(/'/g, "\\'")}', event)">Share</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        async function loadMoreMovies() {
+            if (isLoading || !hasMore) return;
+            isLoading = true;
+            document.getElementById('loadingSpinner').classList.remove('hidden');
+
+            const posts = await fetchPage(currentPage);
+            if (posts.length === 0) {
+                hasMore = false;
+            } else {
+                renderGrid(posts);
+                currentPage++;
+                if (posts.length < PER_PAGE) hasMore = false;
+            }
+
+            isLoading = false;
+            document.getElementById('loadingSpinner').classList.add('hidden');
+        }
+
+        async function showDetail(postId, event) {
+            if (event) event.preventDefault(), event.stopPropagation();
+
+            try {
+                const res = await fetch(`${BASE_URL}/${postId}`);
+                if (!res.ok) throw new Error('Post fetch failed');
+                const post = await res.json();
+
+                let posterUrl = 'https://via.placeholder.com/600x400/ff0000/ffffff?text=No+Poster';
+                const imgMatch = post.content?.match(/<img[^>]+src=["'](.*?)["']/i);
+                if (imgMatch && imgMatch[1]) posterUrl = imgMatch[1];
+
+                let youtubeUrl = '';
+                const patterns = [/youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/i, /youtu\.be\/([a-zA-Z0-9_-]{11})/i, /youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/i];
+                for (const p of patterns) {
+                    const m = post.content?.match(p);
+                    if (m) {
+                        youtubeUrl = `https://www.youtube.com/embed/${m[1]}?autoplay=1&mute=1&rel=0`;
+                        break;
+                    }
+                }
+                const videoSection = youtubeUrl ? `<div class="trailer my-4"><iframe src="${youtubeUrl}" allowfullscreen allow="autoplay"></iframe></div>` : '<p class="text-center text-gray-400 my-4">No trailer available</p>';
+
+                let extraSourcesHtml = '<div class="mt-6 glass p-5 sm:p-6 rounded-xl">';
+                extraSourcesHtml += '<h3 class="text-lg sm:text-xl font-bold text-rose-500 mb-4 text-center">Download Links</h3>';
+                extraSourcesHtml += '<p class="text-gray-400 text-center mb-5 text-sm">Short links – use ad-blocker</p>';
+
+                if (sources.length > 0) {
+                    let selected = [];
+                    let avail = [...sources];
+                    for (let i = 0; i < 3 && avail.length; i++) {
+                        const idx = Math.floor(Math.random() * avail.length);
+                        selected.push(avail.splice(idx, 1)[0]);
+                    }
+
+                    selected.forEach((row, i) => {
+                        extraSourcesHtml += `<h5 class="text-base sm:text-lg font-medium mb-3 text-center">Source ${i+1}</h5>`;
+                        extraSourcesHtml += '<div class="flex flex-wrap justify-center gap-2 sm:gap-3">';
+                        ['480p', '720p', '1080p'].forEach((lbl, j) => {
+                            const url = row[j];
+                            extraSourcesHtml += url?.startsWith('http') 
+                                ? `<a href="${url}" target="_blank" class="btn-premium px-4 py-2 sm:px-5 sm:py-2.5 text-sm rounded-lg">${lbl}</a>`
+                                : `<span class="px-4 py-2 sm:px-5 sm:py-2.5 bg-gray-700 rounded-lg text-sm">${lbl}: N/A</span>`;
+                        });
+                        extraSourcesHtml += '</div>';
+                    });
+                } else {
+                    extraSourcesHtml += '<p class="text-center text-gray-400 text-sm">No sources available</p>';
+                }
+                extraSourcesHtml += '</div>';
+
+                document.getElementById('movieModalLabel').textContent = post.title;
+                document.getElementById('modalContent').innerHTML = `
+                    <img src="${posterUrl}" alt="${post.title}" class="w-full max-h-[400px] sm:max-h-[500px] object-contain rounded-xl mb-4 sm:mb-6 mx-auto" onerror="this.src='https://via.placeholder.com/600x400/ff0000/ffffff?text=No+Poster'">
+                    ${videoSection}
+                    ${extraSourcesHtml}
+                `;
+
+                new bootstrap.Modal(document.getElementById('movieModal')).show();
+            } catch (e) {
+                console.error(e);
+                alert('Failed to load movie details.');
+            }
+        }
+
+        function openShareModal(postId, title, poster, event) {
+            if (event) event.preventDefault(), event.stopPropagation();
+            currentShareData = { postId, title, poster };
+
+            document.getElementById('sharePreview').innerHTML = `
+                <strong class="text-base sm:text-lg">${title}</strong><br>
+                <img src="${poster}" class="max-w-full h-auto my-3 sm:my-4 rounded-xl mx-auto" alt="Poster">
+            `;
+
+            new bootstrap.Modal(document.getElementById('shareModal')).show();
+        }
+
+        function shareTo(platform) {
+            if (!currentShareData) return;
+            const { title, poster } = currentShareData;
+
+            let selectedLinks = [];
+            if (sources.length) {
+                let avail = [...sources];
+                for (let i = 0; i < 3 && avail.length; i++) {
+                    const idx = Math.floor(Math.random() * avail.length);
+                    const group = avail.splice(idx, 1)[0];
+                    const link = group.find(u => u?.startsWith('http')) || group[0] || 'N/A';
+                    selectedLinks.push(link);
+                }
+            }
+
+            const copyText = `${title}\nPoster: ${poster}\n\nDownload Links:\n480p: ${selectedLinks[0] || 'N/A'}\n720p: ${selectedLinks[1] || 'N/A'}\n1080p: ${selectedLinks[2] || 'N/A'}`;
+
+            if (platform === 'copy') {
+                navigator.clipboard.writeText(copyText).then(() => {
+                    alert('Copied to clipboard!');
+                }).catch(() => alert('Copy failed.'));
+                return;
+            }
+
+            let shareUrl;
+            if (platform === 'telegram') {
+                shareUrl = `https://t.me/share/url?url=${encodeURIComponent(poster)}&text=${encodeURIComponent(copyText)}`;
+            } else if (platform === 'whatsapp') {
+                shareUrl = `whatsapp://send?text=${encodeURIComponent(copyText)}`;
+            } else if (platform === 'instagram') {
+                navigator.clipboard.writeText(copyText);
+                alert('Text copied – paste in Instagram');
+                return;
+            }
+
+            if (shareUrl) window.open(shareUrl, '_blank');
+        }
+
+        function searchMovies() {
+            const val = document.getElementById('searchInput').value.toLowerCase().trim();
+            document.querySelectorAll('.movie-card').forEach(card => {
+                card.style.display = card.getAttribute('data-title').includes(val) ? '' : 'none';
+            });
+        }
+
+        function handleScroll() {
+            if (isLoading || !hasMore) return;
+            const spinner = document.getElementById('loadingSpinner');
+            if (spinner.getBoundingClientRect().top < window.innerHeight + 300) {
+                loadMoreMovies();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMoreMovies();
+            document.getElementById('searchInput').addEventListener('input', searchMovies);
+            window.addEventListener('scroll', handleScroll);
+            window.addEventListener('touchmove', handleScroll);
+
+            document.querySelectorAll('#shareTelegram, #shareWhatsapp, #shareInstagram, #shareCopy').forEach(el => {
+                el.addEventListener('click', e => {
+                    e.preventDefault();
+                    const platform = el.id.replace('share', '').toLowerCase();
+                    shareTo(platform);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
